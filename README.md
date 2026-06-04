@@ -1,42 +1,153 @@
-# Dowsiness_Driver_live_Project
+# AI Driver Drowsiness and Fatigue Detection System
 
-# Real-Time Driver Fatigue and Attention Monitoring System Using Computer Vision and Machine Learning
+Real-Time Driver Fatigue and Attention Monitoring System using Computer Vision and Machine Learning.
 
-## Overview
+This project is an AI-powered real-time Driver Monitoring System (DMS) developed using Python, OpenCV, MediaPipe, and Machine Learning to detect:
 
-This project is a real-time Driver Fatigue and Attention Monitoring System developed using Python, OpenCV, MediaPipe, and Machine Learning.
+* Driver drowsiness
+* Fatigue
+* Yawning
+* Eye closure
+* Distraction
+* Head movement
+* Attention loss
 
 The system monitors a driver's facial behavior through a webcam and detects signs of fatigue and inattention using multiple physiological indicators including eye closure, blinking behavior, yawning behavior, and head pose changes.
 
-A custom dataset was collected from webcam recordings and used to train a machine learning model for fatigue classification.
+The system calculates a real-time Fatigue Score (%) and classifies the driver state into:
+
+* Awake
+* Sleepy
+* Very Drowsy
+* Distracted
 
 ---
 
-## Key Features
+# Overview
 
-- Real-time facial landmark detection using MediaPipe Face Mesh
-- Eye Aspect Ratio (EAR) based eye closure monitoring
-- Blink rate estimation
-- Mouth Aspect Ratio (MAR) based yawn detection
-- Yawn rate estimation
-- Head pose analysis
-- Driver distraction monitoring
-- Machine Learning based fatigue classification
-- Real-time fatigue alerts
-- Audible alarm for sustained fatigue detection
-- Live visualization of facial landmarks and monitoring parameters
+Driver fatigue is one of the leading causes of road accidents worldwide. Traditional fatigue monitoring systems often require specialized sensors and expensive hardware.
 
----
+This project demonstrates a low-cost computer vision solution that monitors driver alertness using only a standard webcam and AI-based facial analysis.
 
-## Motivation
+The system performs:
 
-Driver fatigue is a major contributor to road accidents worldwide. Traditional monitoring methods often require specialized hardware and are expensive to deploy.
-
-This project demonstrates a low-cost computer vision solution that can monitor driver alertness using only a standard webcam.
+* Real-time facial landmark detection
+* Fatigue feature extraction
+* Driver state classification
+* Attention monitoring
+* Alert generation
+* Audible warning system
 
 ---
 
-## System Architecture
+# Features Implemented
+
+## Real-Time Face Detection
+
+* MediaPipe Face Mesh based facial landmark tracking
+* Real-time webcam processing
+* Facial landmark visualization
+
+---
+
+## Eye Aspect Ratio (EAR) Detection
+
+Detects:
+
+* Eye closure
+* Blink detection
+* Blink frequency
+* Eye fatigue patterns
+
+---
+
+## Yawn Detection
+
+Uses Mouth Aspect Ratio (MAR) to detect:
+
+* Yawns
+* Frequent yawning events
+* Mouth opening patterns
+
+---
+
+## Head Pose Detection
+
+Detects:
+
+* Head down movement
+* Side distraction
+* Driver inattentiveness
+* Eye slope/head tilt
+
+---
+
+## Fatigue Score Calculation
+
+The system calculates a weighted fatigue percentage using:
+
+FatigueScore =
+
+0.35E + 0.20B + 0.20M + 0.10Y + 0.10V + 0.03S + 0.02H
+
+Where:
+
+| Variable | Meaning                |
+| -------- | ---------------------- |
+| E        | Eye Closure Score      |
+| B        | Blink Score            |
+| M        | Mouth/Yawn Score       |
+| Y        | Yawn Frequency         |
+| V        | Vertical Head Ratio    |
+| S        | Eye Slope              |
+| H        | Horizontal Distraction |
+
+---
+
+## Driver State Classification
+
+The system classifies the driver into:
+
+| State       | Description                 |
+| ----------- | --------------------------- |
+| Awake       | Normal condition            |
+| Sleepy      | Increased blinking/fatigue  |
+| Very Drowsy | High fatigue or eye closure |
+| Distracted  | Looking away or head tilt   |
+
+---
+
+## Real-Time Monitoring
+
+* Dynamic fatigue updates
+* Real-time blink/yawn window analysis
+* Smooth fatigue transitions
+* Automatic recovery from sleepy state
+* Live visualization of monitoring parameters
+
+---
+
+## Alert System
+
+### Visual Alerts
+
+The system displays:
+
+* ALERT
+* DROWSINESS DETECTED
+* WAKE UP
+
+when fatigue is detected.
+
+### Audible Alerts
+
+An alarm sound is triggered when fatigue persists continuously for multiple frames.
+
+This reduces false alarms caused by temporary blinks or short distractions.
+
+---
+
+# System Architecture
 
 ```text
 Webcam Feed
@@ -51,198 +162,92 @@ Facial Landmark Extraction
 Feature Engineering
       │
       ▼
-Machine Learning Model
+Fatigue Score Calculation
       │
       ▼
-Fatigue Classification
+Driver State Classification
       │
       ▼
-Alert & Alarm Generation
+Alert and Alarm Generation
 ```
 
 ---
 
-## Extracted Features
+# Extracted Features
 
 The following features are extracted in real time:
 
-### Eye Features
+## Eye Features
 
-- Eye Aspect Ratio (EAR)
-- Blink Rate
+* Eye Aspect Ratio (EAR)
+* Blink Rate
 
-### Mouth Features
+## Mouth Features
 
-- Mouth Aspect Ratio (MAR)
-- Yawn Rate
+* Mouth Aspect Ratio (MAR)
+* Yawn Rate
 
-### Head Pose Features
+## Head Pose Features
 
-- Horizontal Head Deviation
-- Vertical Face Ratio
-- Eye Slope (Head Tilt)
-
----
-
-## Dataset Collection
-
-A custom dataset was created specifically for this project.
-
-### Data Collection Procedure
-
-Data was collected using the developed webcam-based monitoring system.
-
-Two driving states were recorded:
-
-#### Alert State (Label = 0)
-
-- Eyes open
-- Normal blinking
-- Looking straight
-- No yawning
-
-#### Fatigued State (Label = 1)
-
-- Simulated drowsiness
-- Frequent yawning
-- Extended eye closure
-- Head tilting
-- Looking down
-
-During recording, extracted feature values were automatically stored in a CSV file.
-
-Example dataset format:
-
-```csv
-EAR,BlinkRate,MAR,YawnRate,VerticalRatio,EyeSlope,HorizontalDiff,Fatigue
-0.31,14.2,0.24,0.0,0.44,2.1,4.3,0
-0.17,31.5,0.71,4.8,0.63,15.7,12.4,1
-```
+* Horizontal Head Deviation
+* Vertical Face Ratio
+* Eye Slope (Head Tilt)
 
 ---
 
-## Machine Learning Model
+# Technologies Used
 
-A Logistic Regression classifier was trained using the collected dataset.
+* Python
+* OpenCV
+* MediaPipe
+* NumPy
+* SciPy
+* Pandas
+* Scikit-Learn
+* Joblib
 
-### Input Features
+---
 
-- EAR
-- Blink Rate
-- MAR
-- Yawn Rate
-- Vertical Ratio
-- Eye Slope
-- Horizontal Difference
-
-### Target Label
+# Project Structure
 
 ```text
-0 = Alert
-1 = Fatigued
-```
-
-### Training Workflow
-
-```text
-CSV Dataset
-      │
-      ▼
-Train-Test Split
-      │
-      ▼
-Logistic Regression Training
-      │
-      ▼
-Model Evaluation
-      │
-      ▼
-Real-Time Deployment
-```
-
----
-
-## Feature Importance Analysis
-
-The Logistic Regression model automatically learned the contribution of each feature toward fatigue prediction.
-
-The learned coefficients were analyzed to determine feature importance and validate the effectiveness of the selected fatigue indicators.
-
-This data-driven approach replaced manually assigned feature weights and allowed the system to learn fatigue patterns directly from collected data.
-
----
-
-## Real-Time Prediction
-
-During runtime:
-
-1. Facial landmarks are detected.
-2. Features are extracted.
-3. Features are passed to the trained Logistic Regression model.
-4. The model predicts:
-
-```text
-0 = Alert
-1 = Fatigued
-```
-
-5. If fatigue is detected continuously for a predefined number of frames, an alarm is triggered.
-
----
-
-## Alert Mechanism
-
-### Visual Alerts
-
-- ALERT
-- DROWSINESS DETECTED
-- WAKE UP!
-
-### Audible Alerts
-
-An alarm sound is generated when fatigue persists for multiple consecutive frames.
-
-This reduces false alarms caused by temporary blinks or short-term distractions.
-
----
-
-## Technologies Used
-
-- Python
-- OpenCV
-- MediaPipe
-- NumPy
-- Pandas
-- Scikit-Learn
-- Joblib
-
----
-
-## Project Structure
-
-```text
-driver-fatigue-monitoring-system/
+OPENMDG_DROWSINES/
 │
-├── fatigue_monitor.py
-├── fatigue_model.pkl
-├── fatigue_data.csv
+├── app.py
 ├── requirements.txt
 ├── README.md
-└── assets/
+│
+├── sound/
+│   └── alarm.wav
+│
+├── utils/
+│   ├── alarm.py
+│   ├── fatigue_score.py
+│   ├── driver_state.py
+│   ├── eye_detection.py
+│   ├── yawn_detection.py
+│   ├── head_pose.py
+│   ├── face_mesh.py
+│   └── facedetection.py
+│
+├── assets/
+├── models/
+└── notebooks/
 ```
 
 ---
 
-## Installation
+# How to Run
 
-Clone the repository:
+## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/driver-fatigue-monitoring-system.git
-cd driver-fatigue-monitoring-system
+git clone <repository-url>
 ```
 
-Install dependencies:
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -250,10 +255,10 @@ pip install -r requirements.txt
 
 ---
 
-## Run the Application
+## Run Project
 
 ```bash
-python fatigue_monitor.py
+python app.py
 ```
 
 Press:
@@ -266,41 +271,173 @@ to exit the application.
 
 ---
 
-## Applications
+# Current System Capabilities
 
-- Driver Monitoring Systems
-- Advanced Driver Assistance Systems (ADAS)
-- Fleet Safety Monitoring
-- Automotive Safety Research
-- Human Attention Monitoring
-- Industrial Operator Monitoring
-
----
-
-## Future Work
-
-- Random Forest and XGBoost based models
-- Deep Learning based fatigue prediction
-- Multi-person monitoring
-- Infrared/night-time monitoring
-- Mobile deployment
-- Cloud-based monitoring dashboard
-- Integration with vehicle telemetry data
+* Eye Tracking
+* Blink Detection
+* Yawn Detection
+* Fatigue Percentage
+* Driver State Classification
+* Head Tilt Detection
+* Side Distraction Detection
+* Real-Time Webcam Monitoring
+* Real-Time Facial Landmark Tracking
+* Visual and Audible Alerts
 
 ---
 
-## Author
+# Dataset Collection
 
-Tushar Kumar 
+A custom dataset can be created using the developed webcam monitoring system.
 
-Mechanical Engineering  
+## Data Collection Procedure
+
+Two driver states can be recorded:
+
+### Alert State (Label = 0)
+
+* Eyes open
+* Normal blinking
+* Looking straight
+* No yawning
+
+### Fatigued State (Label = 1)
+
+* Simulated drowsiness
+* Frequent yawning
+* Extended eye closure
+* Head tilting
+* Looking down
+
+Extracted features can be stored in CSV format for future Machine Learning training.
+
+Example dataset format:
+
+```csv
+EAR,BlinkRate,MAR,YawnRate,VerticalRatio,EyeSlope,HorizontalDiff,Fatigue
+0.31,14.2,0.24,0.0,0.44,2.1,4.3,0
+0.17,31.5,0.71,4.8,0.63,15.7,12.4,1
+```
+
+---
+
+# Machine Learning Integration
+
+Currently the project uses a rule-based driver classification system.
+
+Future upgrades can include Machine Learning and Deep Learning models such as:
+
+* Logistic Regression
+* Random Forest
+* XGBoost
+* SVM
+* LSTM
+* CNN-LSTM
+
+using features:
+
+* EAR
+* MAR
+* Blink Rate
+* Head Pose
+* Yawns
+* Fatigue Score
+* Eye Slope
+* Distraction Ratio
+
+Then replace:
+
+```python
+classify()
+```
+
+with:
+
+```python
+model.predict(features)
+```
+
+This will convert the system into a fully AI-powered Driver Monitoring System suitable for advanced automotive and safety applications.
+
+---
+
+# Future Implementations
+
+## Advanced Features
+
+* Night Vision Support using Histogram Equalization and Brightness Correction
+* Dashboard UI using Streamlit, Tkinter, or PyQt
+* Driver Report Generation with CSV/Excel logging
+* Mobile Camera Support using DroidCam
+* Seat Vibration Simulation for driver alerts
+* Real-Time Graphs for EAR, Blink Frequency, and Fatigue Score
+* Multi-Person Detection for driver/passenger identification
+* Face Recognition for driver authentication
+* Cloud Logging using Firebase, AWS, or MongoDB
+* GPS and Emergency Alert System with location sharing and SMS alerts
+* Vehicle telemetry integration
+* Infrared and low-light monitoring
+
+---
+
+# Recommended Final Version
+
+Recommended feature set for a strong AI project:
+
+* Real-Time Fatigue Detection
+* Driver State Classification
+* Dashboard UI
+* Driver Reports
+* Real-Time Graphs
+* Mobile Camera Support
+* Night Vision Support
+* Cloud Logging
+* ML-Based Driver Classification
+
+---
+
+# Applications
+
+* Driver Monitoring Systems
+* Advanced Driver Assistance Systems (ADAS)
+* Fleet Safety Monitoring
+* Automotive Safety Research
+* Human Attention Monitoring
+* Industrial Operator Monitoring
+* Smart Transportation Systems
+
+---
+
+# Developed Using
+
+* Computer Vision
+* Machine Learning Concepts
+* Real-Time Video Processing
+* Human Behavior Analysis
+
+---
+
+# Future Scope
+
+This project can be extended into:
+
+* ADAS Systems
+* Smart Transportation Platforms
+* Automotive AI Systems
+* Embedded Edge AI Devices
+* Autonomous Vehicle Safety Platforms
+
+---
+
+# Author
+
+Tushar Kumar
+
+Mechanical Engineering
 Indian Institute of Technology Roorkee
 
 ---
 
-## License
+# License
 
-This project is released under the MIT License.
-
-
-
+This project is for educational and research purposes.
